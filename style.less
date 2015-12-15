@@ -1,0 +1,121 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200italic,600,600italic);
+
+body {
+    background: black;
+    margin: 0;
+    font-family: "Source Sans Pro", sans-serif;
+}
+#app {
+    width: 1280px;
+    height: 720px;
+    border: 1px solid white;
+    background: #080002;
+    header {
+        height: 170px;
+        background: white;
+        position: relative;
+        #hospice-logo, #gala-logo {
+            position: absolute;
+            display: block;
+            height: 100px;
+            bottom: 27px;
+            left: 65px;
+        }
+        #gala-logo {
+            height: 110px;
+            left: 315px;
+        }
+    }
+    #main {
+        position: relative;
+        height: 490px;
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9b0e31+0,080002+100 */
+        background: #9b0e31; /* Old browsers */
+        background: -moz-radial-gradient(center, ellipse cover,  #9b0e31 0%, #080002 100%); /* FF3.6-15 */
+        background: -webkit-radial-gradient(center, ellipse cover,  #9b0e31 0%,#080002 100%); /* Chrome10-25,Safari5.1-6 */
+        background: radial-gradient(ellipse at center,  #9b0e31 0%,#080002 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9b0e31', endColorstr='#080002',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+    }
+    #tv {
+        width: 615px;
+        height: 440px;
+        position: absolute;
+        top: 35px;
+        right: 70px;
+        z-index: 10;
+        img {
+            width: 100%;
+        }
+    }
+    #img-wrap {
+        position: absolute;
+        right: 232px;
+        top: 55px;
+        width: 435px;
+        height: 355px;
+        background: yellow;
+        background-size: cover;
+        background-position: 50% 50%;
+    }
+    #content {
+        color: white;
+        font-size: 40px;
+        position: absolute;
+        text-align: right;
+        top: 45px;
+        left: 55px;
+        width: 515px;
+        height: 290px;
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        &:before {
+            content:"\201C";
+            font-size: 80px;
+            position: absolute;
+            margin-left: -40px;
+            margin-top: -20px;
+            color: #b10e39;
+            font-weight: bold;
+        }
+        hr {
+            float: right;
+            width: 375px;
+            border: none;
+            border-top: 3px solid #b10e39;
+            clear: both;
+        }
+        .author-wrap {
+            clear: both;
+            font-size: 22px;
+            line-height: 35px;
+            padding-top: 5px;
+            .fa {
+                font-size: 24px;
+            }
+            img {
+                border: 3px solid #b10e39;
+                float: right;
+                width: 70px;
+                height: 70px;
+                margin-left: 15px;
+                margin-top: -5px;
+            }
+        }
+    }
+    footer {
+        height: 60px;
+        color: white;
+        line-height: 60px;
+        padding: 0 55px;
+        font-size: 24px;
+        #powered-by {
+            float: right;
+            height: 48px;
+            margin-right: -30px;
+            margin-top: 4px;
+        }
+    }
+}

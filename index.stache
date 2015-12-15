@@ -1,0 +1,28 @@
+<header>
+  <img id="hospice-logo" src="./images/hospice.png">
+  <img id="gala-logo" src="./images/gala.png">
+</header>
+
+<div id="main">
+  {{#currentBit}}
+    <div id="content">
+      {{{title}}}
+      <hr>
+      <div class="author-wrap">
+        <img src="{{author.avatar_url}}">
+        <b>{{author.id}}</b><br>
+        <i class="fa fa-{{feed_name}}"></i>
+        
+      </div>
+    </div>
+    <div id="tv"><img src="./images/tv.png"></div>
+    <div id="img-wrap" style="background-image: url({{images.0.url}})"></div>
+  {{/currentBit}}
+</div>
+<footer>
+  <i class="fa fa-instagram"></i>
+  <i class="fa fa-twitter"></i>
+  <i class="fa fa-facebook"></i>
+  Connect with us on social media with the <b>#BeBurgundy</b> hashtag!
+  <img id="powered-by" src="./images/powered_by.png"/>
+</footer>
