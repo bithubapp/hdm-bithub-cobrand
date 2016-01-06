@@ -12,7 +12,7 @@
         <hr>
         <div class="author-wrap">
           <img src="{{author.avatar_url}}">
-          <b>{{author.class}}</b><br>
+          <b>{{author.id}}</b><br>
           <i class="fa fa-{{feed_name}}"></i>
           
         </div>
@@ -29,7 +29,7 @@
         <hr>
         <div class="author-wrap">
           <img src="{{author.avatar_url}}">
-          <b>{{author.class}}</b><br>
+          <b>{{author.id}}</b><br>
           <i class="fa fa-{{feed_name}}"></i>
           
         </div>

@@ -68,7 +68,7 @@ var Hub = can.Component.extend({
 					self.scope.attr('currentBitIdx', nextIdx);
 					self.cycle();	
 				}, 600);				
-			}, 5000);
+			}, 50000);
 		}
 	}
 });
