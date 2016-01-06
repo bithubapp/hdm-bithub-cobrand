@@ -1,28 +1,48 @@
 <header>
-  <img id="hospice-logo" src="./images/hospice.png">
-  <img id="gala-logo" src="./images/gala.png">
+  <img class="hospice-logo" src="./images/hospice.png">
+  <img class="gala-logo" src="./images/gala.png">
+  <hg-sponsors></hg-sponsors>
 </header>
 
-<div id="main">
+<div class="main">
   {{#currentBit}}
-    <div id="content">
-      {{{title}}}
-      <hr>
-      <div class="author-wrap">
-        <img src="{{author.avatar_url}}">
-        <b>{{author.id}}</b><br>
-        <i class="fa fa-{{feed_name}}"></i>
-        
+    <div class="current-bit">
+      <div class="content">
+        {{{title}}}
+        <hr>
+        <div class="author-wrap">
+          <img src="{{author.avatar_url}}">
+          <b>{{author.class}}</b><br>
+          <i class="fa fa-{{feed_name}}"></i>
+          
+        </div>
       </div>
+      <div class="tv"><img src="./images/tv.png"></div>
+      <div class="img-wrap" style="background-image: url({{images.0.url}})"></div>
     </div>
-    <div id="tv"><img src="./images/tv.png"></div>
-    <div id="img-wrap" style="background-image: url({{images.0.url}})"></div>
   {{/currentBit}}
+
+  {{#nextBit}}
+    <div class="next-bit">
+      <div class="content">
+        {{{title}}}
+        <hr>
+        <div class="author-wrap">
+          <img src="{{author.avatar_url}}">
+          <b>{{author.class}}</b><br>
+          <i class="fa fa-{{feed_name}}"></i>
+          
+        </div>
+      </div>
+      <div class="tv"><img src="./images/tv.png"></div>
+      <div class="img-wrap" style="background-image: url({{images.0.url}})"></div>
+    </div>
+  {{/nextBit}}
 </div>
 <footer>
   <i class="fa fa-instagram"></i>
   <i class="fa fa-twitter"></i>
   <i class="fa fa-facebook"></i>
   Connect with us on social media with the <b>#BeBurgundy</b> hashtag!
-  <img id="powered-by" src="./images/powered_by.png"/>
+  <img class="powered-by" src="./images/powered_by.png"/>
 </footer>

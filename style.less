@@ -14,19 +14,19 @@ body {
         height: 170px;
         background: white;
         position: relative;
-        #hospice-logo, #gala-logo {
+        .hospice-logo, .gala-logo {
             position: absolute;
             display: block;
             height: 100px;
             bottom: 27px;
             left: 65px;
         }
-        #gala-logo {
+        .gala-logo {
             height: 110px;
             left: 315px;
         }
     }
-    #main {
+    .main {
         position: relative;
         height: 490px;
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#9b0e31+0,080002+100 */
@@ -37,7 +37,7 @@ body {
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9b0e31', endColorstr='#080002',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
     }
-    #tv {
+    .tv {
         width: 615px;
         height: 440px;
         position: absolute;
@@ -48,17 +48,17 @@ body {
             width: 100%;
         }
     }
-    #img-wrap {
+    .img-wrap {
         position: absolute;
         right: 232px;
         top: 55px;
         width: 435px;
         height: 355px;
-        background: black;
         background-size: cover;
         background-position: 50% 50%;
+        background-repeat: no-repeat;
     }
-    #content {
+    .content {
         color: white;
         font-size: 40px;
         position: absolute;
@@ -111,11 +111,39 @@ body {
         line-height: 60px;
         padding: 0 55px;
         font-size: 24px;
-        #powered-by {
+        .powered-by {
             float: right;
             height: 48px;
             margin-right: -30px;
             margin-top: 4px;
         }
+    }
+    .next-bit .content {
+        opacity: 0;
+    }
+    .current-bit .content, .next-bit .content {
+         transition: opacity .5s ease-in-out;
+         -moz-transition: opacity .5s ease-in-out;
+         -webkit-transition: opacity .5s ease-in-out;
+    }
+    .current-bit .tv {
+        z-index: 1001;
+    }
+    .current-bit .img-wrap {
+        -webkit-transition:background-position .5s ease-in;
+        -moz-transition:background-position .5s ease-in;
+        -o-transition:background-position .5s ease-in;
+        z-index: 1000;
+    }
+    .current-bit-exiting {
+        .content {
+            opacity: 0;
+        }
+        .img-wrap {
+            background-position: -1000px 50%;
+        }
+    }
+    .next-bit-entering .content {
+        opacity: 1;
     }
 }
