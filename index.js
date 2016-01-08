@@ -7,7 +7,7 @@ import "can/list/promise/";
 import "./style.less!";
 import "sponsors/";
 
-const URL = 'http://bithub.com/api/v3/embeds/143/entities?view=public&tenant_name=calm_dove_6826&image_only=true&offset=0&limit=5';
+const URL = 'http://bithub.com/api/v3/embeds/2/entities?decision=approved&tenant_name=benevolent_foliage_3723&image_only=true&offset=0&limit=50';
 
 var Bit = can.Model.extend({
 	findAll: URL

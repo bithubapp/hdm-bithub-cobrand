@@ -3,7 +3,7 @@ import initView from "./sponsors.stache!";
 import "can/list/promise/";
 import "./sponsors.less!";
 
-const URL = 'http://bithub.com/api/v3/embeds/143/entities?view=public&tenant_name=calm_dove_6826&image_only=true&offset=0&limit=5';
+const URL = 'http://bithub.com/api/v3/embeds/2/entities?decision=starred&tenant_name=benevolent_foliage_3723&image_only=true&offset=0&limit=50';
 
 
 var SponsorsBit = can.Model.extend({

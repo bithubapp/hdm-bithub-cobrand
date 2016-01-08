@@ -11,7 +11,9 @@
         {{{title}}}
         <hr>
         <div class="author-wrap">
-          <img src="{{author.avatar_url}}">
+          {{#if author.avatar_url}}
+            <img src="{{author.avatar_url}}">
+          {{/if }}
           <b>{{author.id}}</b><br>
           <i class="fa fa-{{feed_name}}"></i>
           
@@ -28,7 +30,9 @@
         {{{title}}}
         <hr>
         <div class="author-wrap">
-          <img src="{{author.avatar_url}}">
+          {{#if author.avatar_url}}
+            <img src="{{author.avatar_url}}">
+          {{/if}}
           <b>{{author.id}}</b><br>
           <i class="fa fa-{{feed_name}}"></i>
           
