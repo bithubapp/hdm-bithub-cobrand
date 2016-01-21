@@ -71,15 +71,7 @@ body {
             color: white;
             text-decoration: none;
         }
-        &:before {
-            content:"\201C";
-            font-size: 80px;
-            position: absolute;
-            margin-left: -40px;
-            margin-top: -20px;
-            color: #b10e39;
-            font-weight: bold;
-        }
+        
         hr {
             float: right;
             width: 375px;
@@ -145,5 +137,19 @@ body {
     }
     .next-bit-entering .content {
         opacity: 1;
+    }
+    .inner-content-wrap {
+        max-height: 250px;
+        overflow: hidden;
+        position: relative;
+        &:before {
+            content:"\201C";
+            font-size: 80px;
+            position: absolute;
+            margin-left: -40px;
+            margin-top: -20px;
+            color: #b10e39;
+            font-weight: bold;
+        }
     }
 }

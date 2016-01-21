@@ -18,12 +18,42 @@ var Hub = can.Component.extend({
 	template: initView,
 	scope : {
 		currentBitIdx: 0,
+		resetCycle: 0,
 		define : {
 			bits : {
 				get : function(){
 					return new Bit.List({});
 				}
 			}
+		},
+		init : function(){
+			this.loadNewBits();
+		},
+		loadNewBits : function(){
+			var self = this;
+			clearTimeout(this.__loadNewBitsTimeout);
+			this.__loadNewBitsTimeout = setTimeout(function(){
+				Bit.findAll().then(function(data){
+					var bits = self.attr('bits');
+					var buffer = [];
+					var current;
+					for(var i = 0; i < bits.length; i++){
+						current = bits[i];
+						if(bits.indexOf(current) === -1){
+							buffer.unshift(current);
+						}
+					}
+					if(buffer.length){
+						can.batch.start();
+						buffer.unshift(0);
+						buffer.unshift(self.currentBitIdx + 1);
+						bits.splice.apply(bits, buffer);
+						can.batch.stop();
+					}
+				}, function(){
+					self.loadNewBits();
+				});
+			}, 30000);
 		},
 		currentBit : function(){
 			if(this.attr('bits').isResolved()){
@@ -50,9 +80,13 @@ var Hub = can.Component.extend({
 				this.cycle();
 			}
 		},
+		"{scope} resetCycle" : function(){
+			clearTimeout(this.__cycleTimeout);
+			this.cycle();
+		},
 		cycle : function(){
 			var self = this;
-			setTimeout(function(){
+			this.__cycleTimeout = setTimeout(function(){
 				if(!self.element){
 					return;
 				}

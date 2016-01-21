@@ -8,7 +8,9 @@
   {{#currentBit}}
     <div class="current-bit">
       <div class="content">
-        {{{title}}}
+        <div class="inner-content-wrap">
+          {{{title}}}
+        </div>
         <hr>
         <div class="author-wrap">
           {{#if author.avatar_url}}
@@ -27,7 +29,9 @@
   {{#nextBit}}
     <div class="next-bit">
       <div class="content">
-        {{{title}}}
+        <div class="inner-content-wrap">
+          {{{title}}}
+        </div>
         <hr>
         <div class="author-wrap">
           {{#if author.avatar_url}}
