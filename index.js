@@ -37,7 +37,7 @@ var Hub = can.Component.extend({
 					var bits = self.attr('bits');
 					var buffer = [];
 					var current;
-					for(var i = 0; i < bits.length; i++){
+					for(var i = 0; i < data.length; i++){
 						current = data[i];
 						if(bits.indexOf(current) === -1){
 							buffer.unshift(current);
