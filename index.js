@@ -38,7 +38,7 @@ var Hub = can.Component.extend({
 					var buffer = [];
 					var current;
 					for(var i = 0; i < bits.length; i++){
-						current = bits[i];
+						current = data[i];
 						if(bits.indexOf(current) === -1){
 							buffer.unshift(current);
 						}
@@ -50,6 +50,7 @@ var Hub = can.Component.extend({
 						bits.splice.apply(bits, buffer);
 						can.batch.stop();
 					}
+					self.loadNewBits();
 				}, function(){
 					self.loadNewBits();
 				});
