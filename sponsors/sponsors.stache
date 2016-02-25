@@ -1,5 +1,5 @@
-{{#currentBit}}
+{{#starredBit}}
   <div class="sponsors-img-wrap" style="background-image: url({{images.0.url}})"></div>
   <b>From Our Sponsors:</b>
   {{{ title }}}
-{{/currentBit}}
+{{/starredBit}}

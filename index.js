@@ -7,39 +7,123 @@ import "can/list/promise/";
 import "./style.less!";
 import "sponsors/";
 
-const URL = 'http://bithub.com/api/v4/embeds/2/entities?decision=approved&tenant_name=benevolent_foliage_3723&image_only=true&offset=0&limit=50';
+let feedURL = function(hub, decision, tenant) {
+	return `http://bithub.com/api/v4/embeds/${hub}/entities?decision=${decision}&tenant_name=${tenant}&image_only=true&offset=0&limit=50`;
+};
 
-var Bit = can.Model.extend({
-	findAll: URL
-}, {});
-
-var Hub = can.Component.extend({
-	tag: 'hg-hub',
+can.Component.extend({
+	tag: "bithub-approved",
 	template: initView,
-	scope : {
+	viewModel: {
 		currentBitIdx: 0,
 		resetCycle: 0,
-		define : {
-			bits : {
-				get : function(){
-					return new Bit.List({});
+		_bits: [],
+		define: {
+			bits: {
+				get: function() {
+					if (this.attr("ApprovedModel") && !this._bits.length) {
+						let approvedItems = this.attr("ApprovedModel").List({});
+						this._bits = new approvedItems;
+					}
+					return this._bits;
+				}
+			},
+			hashTag: {
+				set: function(raw) {
+					return raw.replace(/\#/g, "");
+				}
+			},
+			embedMarkup: {
+				set: function(markup) {
+					let href = can.buildFragment(markup)
+						.querySelector("a[href]")
+						.getAttribute("href");
+
+					let {hubId: hub, tenant: tenant} =
+						can.deparam(href.split("?")[1]);
+
+					this.attr("approvedURL", feedURL(hub, "approved", tenant));
+					this.attr("starredURL", feedURL(hub, "starred", tenant));
+
+					return markup;
+				}
+			},
+			approvedURL: {
+				set: function(url) {
+					this.attr("ApprovedModel", can.Model.extend({
+						findAll: url
+					}, { }));
+					return url;
 				}
 			}
 		},
-		init : function(){
+		showHub: function() {
+			this.attr("embedMarkup", $("textarea#embed-markup").val());
+			this.attr("hashTag", $("input#hash-tag").val());
+		},
+		approvedBit: function() {
+			if(this.attr("bits").attr("length")) {
+				return this.attr('bits.' + this.attr('currentBitIdx'));
+			}
+		},
+		nextBit: function() {
+			if(this.attr("bits").attr("length")) {
+				let nextBitIdx = this.attr('currentBitIdx') + 1;
+				if(nextBitIdx === this.attr('bits').attr('length')){
+					nextBitIdx = 0;
+				}
+				return this.attr('bits.' + nextBitIdx);
+			}
+		}
+	},
+	events : {
+		init: function() {
+			this._isCycleStarted = false;
+		},
+		"{viewModel} ApprovedModel": function() {
 			this.loadNewBits();
 		},
-		loadNewBits : function(){
-			var self = this;
-			clearTimeout(this.__loadNewBitsTimeout);
-			this.__loadNewBitsTimeout = setTimeout(function(){
-				Bit.findAll().then(function(data){
-					var bits = self.attr('bits');
-					var buffer = [];
-					var current;
-					for(var i = 0; i < data.length; i++){
+		"{viewModel.bits} length": function() {
+			if(!this._isCycleStarted){
+				this._isCycleStarted = true;
+				this.cycle();
+			}
+		},
+		"{viewModel} resetCycle": function() {
+			clearTimeout(this.__cycleTimeout);
+			this.cycle();
+		},
+		cycle: function() {
+			let self = this;
+			this.__cycleTimeout = setTimeout(function() {
+				if(!self.element) {
+					return;
+				}
+				self.element.find('.current-bit').addClass('current-bit-exiting');
+				self.element.find('.next-bit').addClass('next-bit-entering');
+				setTimeout(function() {
+					let currentBitIdx = self.viewModel.attr('currentBitIdx');
+					let length = self.viewModel.attr('bits.length');
+					let nextIdx = currentBitIdx + 1;
+					if(nextIdx >= length) {
+						nextIdx = 0;
+					}
+					self.viewModel.attr('currentBitIdx', nextIdx);
+					self.cycle();
+				}, 600);
+			}, 5000);
+		},
+		loadNewBits: function() {
+			let self = this;
+			let _loadBits = function() {
+				clearTimeout(self.__loadNewBitsTimeout);
+				self.viewModel.attr("ApprovedModel").findAll().then(function(data) {
+					let bits = self.viewModel.attr('bits');
+					let buffer = [];
+					let current;
+					for(var i = 0; i < data.length; i++) {
 						current = data[i];
-						if(bits.indexOf(current) === -1){
+						if(bits.indexOf(current) === -1) {
 							buffer.unshift(current);
 						}
 					}
@@ -50,64 +134,13 @@ var Hub = can.Component.extend({
 						bits.splice.apply(bits, buffer);
 						can.batch.stop();
 					}
-					self.loadNewBits();
-				}, function(){
-					self.loadNewBits();
 				});
-			}, 30000);
-		},
-		currentBit : function(){
-			if(this.attr('bits').isResolved()){
-				return this.attr('bits.' + this.attr('currentBitIdx'));
-			}
-		},
-		nextBit : function(){
-			if(this.attr('bits').isResolved()){
-				var nextBitIdx = this.attr('currentBitIdx') + 1;
-				if(nextBitIdx === this.attr('bits').attr('length')){
-					nextBitIdx = 0;
-				}
-				return this.attr('bits.' + nextBitIdx);
-			}
-		}
-	},
-	events : {
-		init : function(){
-			this._isCycleStarted = false;
-		},
-		"{scope.bits} length" : function(){
-			if(!this._isCycleStarted){
-				this._isCycleStarted = true;
-				this.cycle();
-			}
-		},
-		"{scope} resetCycle" : function(){
-			clearTimeout(this.__cycleTimeout);
-			this.cycle();
-		},
-		cycle : function(){
-			var self = this;
-			this.__cycleTimeout = setTimeout(function(){
-				if(!self.element){
-					return;
-				}
-				self.element.find('.current-bit').addClass('current-bit-exiting');
-				self.element.find('.next-bit').addClass('next-bit-entering');
-				setTimeout(function(){
-					var currentBitIdx = self.scope.attr('currentBitIdx');
-					var length = self.scope.attr('bits.length');
-					var nextIdx = currentBitIdx + 1;
-					if(nextIdx >= length){
-						nextIdx = 0;
-					}
-					self.scope.attr('currentBitIdx', nextIdx);
-					self.cycle();	
-				}, 600);				
-			}, 5000);
+				self.__loadNewBitsTimeout = setTimeout(_loadBits, 30000);
+			};
+			_loadBits();
 		}
 	}
 });
 
-var template = stache("<hg-hub></hg-hub>");
-
+let template = stache("<bithub-approved></bithub-approved>")
 $('#app').html(template());

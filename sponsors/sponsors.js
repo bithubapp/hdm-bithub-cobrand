@@ -3,53 +3,83 @@ import initView from "./sponsors.stache!";
 import "can/list/promise/";
 import "./sponsors.less!";
 
-const URL = 'http://bithub.com/api/v4/embeds/2/entities?decision=starred&tenant_name=benevolent_foliage_3723&image_only=true&offset=0&limit=50';
-
-
-var SponsorsBit = can.Model.extend({
-	findAll : URL
-});
-
 export default can.Component.extend({
-	tag: 'hg-sponsors',
+	tag: "bithub-starred",
 	template: initView,
-	scope : {
+	viewModel: {
 		currentBitIdx: 0,
-		define : {
-			bits : {
-				get : function(){
-					return new SponsorsBit.List({});
+		_bits: [],
+		define: {
+			bits: {
+				get: function() {
+					if (this.attr("StarredModel") && !this._bits.length) {
+						let approvedItems = this.attr("StarredModel").List({});
+						this._bits = new approvedItems;
+					}
+					return this._bits;
 				}
 			}
 		},
-		currentBit : function(){
-			if(this.attr('bits').isResolved()){
+		starredBit: function() {
+			if(this.attr('bits').attr("length")) {
 				return this.attr('bits.' + this.attr('currentBitIdx'));
 			}
 		}
 	},
 	events : {
-		init : function(){
+		init: function() {
+			this.viewModel.attr("StarredModel", can.Model.extend({
+				findAll: this.viewModel.attr("starredUrl")
+			}, {}));
 			this._isCycleStarted = false;
 		},
-		"{scope.bits} length" : function(){
-			if(!this._isCycleStarted){
+		"{viewModel} StarredModel": function() {
+			this.loadNewBits();
+		},
+		"{scope.bits} length": function() {
+			if(!this._isCycleStarted) {
 				this._isCycleStarted = true;
 				this.cycle();
 			}
 		},
-		cycle : function(){
-			var self = this;
-			setTimeout(function(){
-				var currentBitIdx = self.scope.attr('currentBitIdx');
-				var length = self.scope.attr('bits.length');
-				var nextIdx = currentBitIdx + 1;
-				if(nextIdx >= length){
+		cycle: function() {
+			let self = this;
+			setTimeout(function() {
+				let currentBitIdx = self.viewModel.attr('currentBitIdx');
+				let length = self.viewModel.attr('bits.length');
+				let nextIdx = currentBitIdx + 1;
+				if(nextIdx >= length) {
 					nextIdx = 0;
 				}
-				self.scope.attr('currentBitIdx', nextIdx);
+				self.viewModel.attr('currentBitIdx', nextIdx);
 				self.cycle();
 			}, 5000);
+		},
+		loadNewBits: function() {
+			let self = this;
+			let _loadBits = function() {
+				clearTimeout(self.__loadNewBitsTimeout);
+				self.viewModel.attr("StarredModel").findAll().then(function(data) {
+					let bits = self.viewModel.attr('bits');
+					let buffer = [];
+					let current;
+					for(var i = 0; i < data.length; i++) {
+						current = data[i];
+						if(bits.indexOf(current) === -1) {
+							buffer.unshift(current);
+						}
+					}
+					if(buffer.length){
+						can.batch.start();
+						buffer.unshift(0);
+						buffer.unshift(self.currentBitIdx + 1);
+						bits.splice.apply(bits, buffer);
+						can.batch.stop();
+					}
+				});
+				self.__loadNewBitsTimeout = setTimeout(_loadBits, 30000);
+			};
+			_loadBits();
 		}
 	}
 });

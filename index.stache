@@ -1,56 +1,66 @@
-<header>
-  <img class="hospice-logo" src="./images/hospice.png">
-  <img class="gala-logo" src="./images/gala.png">
-  <hg-sponsors></hg-sponsors>
-</header>
-
-<div class="main">
-  {{#currentBit}}
-    <div class="current-bit">
-      <div class="content">
-        <div class="inner-content-wrap">
-          {{{title}}}
-        </div>
-        <hr>
-        <div class="author-wrap">
-          {{#if author.avatar_url}}
-            <img src="{{author.avatar_url}}">
-          {{/if }}
-          <b>{{author.id}}</b><br>
-          <i class="fa fa-{{feed_name}}"></i>
-          
-        </div>
-      </div>
-      <div class="tv"><img src="./images/tv.png"></div>
-      <div class="img-wrap" style="background-image: url({{images.0.url}})"></div>
+{{#unless hashTag}}
+    <div class="main">
+        <form>
+            <input type="text" id="hash-tag"></input>
+            <br>
+            <textarea id="embed-markup"></textarea>
+            <button type="button" ($click)="showHub">Show Hub</button>
+        </form>
     </div>
-  {{/currentBit}}
+{{else}}
+    <header>
+        <img class="hospice-logo" src="./images/hospice.png">
+        <img class="gala-logo" src="./images/gala.png">
+        <bithub-starred {starred-url}="starredURL"></bithub-starred>
+    </header>
+    <div class="main">
 
-  {{#nextBit}}
-    <div class="next-bit">
-      <div class="content">
-        <div class="inner-content-wrap">
-          {{{title}}}
+    {{#approvedBit}}
+        <div class="current-bit">
+            <div class="content">
+                <div class="inner-content-wrap">
+                    {{{title}}}
+                </div>
+                <hr>
+                <div class="author-wrap">
+                    {{#if author.avatar_url}}
+                        <img src="{{author.avatar_url}}">
+                    {{/if}}
+                    <b>{{author.id}}</b>
+                    <br>
+                    <i class="fa fa-{{feed_name}}"></i>
+
+                </div>
+            </div>
+            <div class="tv"><img src="./images/tv.png"></div>
+            <div class="img-wrap" style="background-image: url({{images.0.url}})"></div>
         </div>
-        <hr>
-        <div class="author-wrap">
-          {{#if author.avatar_url}}
-            <img src="{{author.avatar_url}}">
-          {{/if}}
-          <b>{{author.id}}</b><br>
-          <i class="fa fa-{{feed_name}}"></i>
-          
+    {{/approvedBit}}
+    {{#nextBit}}
+        <div class="next-bit">
+            <div class="content">
+                <div class="inner-content-wrap">
+                    {{{title}}}
+                </div>
+                <hr>
+                <div class="author-wrap">
+                    {{#if author.avatar_url}}
+                        <img src="{{author.avatar_url}}">
+                    {{/if}}
+                    <b>{{author.id}}</b>
+                    <br>
+                    <i class="fa fa-{{feed_name}}"></i>
+                </div>
+            </div>
+            <div class="tv"><img src="./images/tv.png"></div>
+            <div class="img-wrap" style="background-image: url({{images.0.url}})"></div>
         </div>
-      </div>
-      <div class="tv"><img src="./images/tv.png"></div>
-      <div class="img-wrap" style="background-image: url({{images.0.url}})"></div>
+    {{/nextBit}}
     </div>
-  {{/nextBit}}
-</div>
-<footer>
-  <i class="fa fa-instagram"></i>
-  <i class="fa fa-twitter"></i>
-  <i class="fa fa-facebook"></i>
-  Connect with us on social media with the <b>#BeBurgundy</b> hashtag!
-  <img class="powered-by" src="./images/powered_by.png"/>
-</footer>
+    <footer>
+        <i class="fa fa-instagram"></i>
+        <i class="fa fa-twitter"></i>
+        <i class="fa fa-facebook"></i> Connect with us on social media with the <b>#{{hashTag}}</b> hashtag!
+        <img class="powered-by" src="./images/powered_by.png" />
+    </footer>
+{{/unless}}

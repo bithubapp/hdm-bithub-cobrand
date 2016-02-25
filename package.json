@@ -1,6 +1,6 @@
 {
-  "name": "hospice",
-  "version": "0.0.0",
+  "name": "hdm-bithub-cobrand",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "can": "^2.3.6",
-    "steal": "^0.13.0-pre.3"
+    "can": "2.3.17",
+    "steal": "0.14.0"
   },
 	"system": {
 		"configDependencies": [
