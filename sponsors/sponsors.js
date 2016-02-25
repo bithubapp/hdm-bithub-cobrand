@@ -17,6 +17,15 @@ export default can.Component.extend({
 			if(this.attr("bits").attr("length")) {
 				return this.attr('bits.' + this.attr('currentBitIdx'));
 			}
+		},
+		nextBit: function() {
+			if(this.attr("bits").attr("length")) {
+				let nextBitIdx = this.attr('currentBitIdx') + 1;
+				if(nextBitIdx === this.attr('bits').attr('length')){
+					nextBitIdx = 0;
+				}
+				return this.attr('bits.' + nextBitIdx);
+			}
 		}
 	},
 	events : {
