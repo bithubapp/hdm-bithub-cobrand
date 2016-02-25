@@ -17,16 +17,9 @@ can.Component.extend({
 	viewModel: {
 		currentBitIdx: 0,
 		resetCycle: 0,
-		_bits: [],
 		define: {
 			bits: {
-				get: function() {
-					if (this.attr("ApprovedModel") && !this._bits.length) {
-						let approvedItems = this.attr("ApprovedModel").List({});
-						this._bits = new approvedItems;
-					}
-					return this._bits;
-				}
+				Value: can.List
 			},
 			hashTag: {
 				set: function(raw) {
@@ -63,7 +56,7 @@ can.Component.extend({
 		},
 		approvedBit: function() {
 			if(this.attr("bits").attr("length")) {
-				return this.attr('bits.' + this.attr('currentBitIdx'));
+				return this.attr("bits." + this.attr("currentBitIdx"));
 			}
 		},
 		nextBit: function() {

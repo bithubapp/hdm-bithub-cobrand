@@ -8,20 +8,13 @@ export default can.Component.extend({
 	template: initView,
 	viewModel: {
 		currentBitIdx: 0,
-		_bits: [],
 		define: {
 			bits: {
-				get: function() {
-					if (this.attr("StarredModel") && !this._bits.length) {
-						let approvedItems = this.attr("StarredModel").List({});
-						this._bits = new approvedItems;
-					}
-					return this._bits;
-				}
+				Value: can.List
 			}
 		},
 		starredBit: function() {
-			if(this.attr('bits').attr("length")) {
+			if(this.attr("bits").attr("length")) {
 				return this.attr('bits.' + this.attr('currentBitIdx'));
 			}
 		}
@@ -46,7 +39,7 @@ export default can.Component.extend({
 			let self = this;
 			setTimeout(function() {
 				let currentBitIdx = self.viewModel.attr('currentBitIdx');
-				let length = self.viewModel.attr('bits.length');
+				let length = self.viewModel.attr("bits.length");
 				let nextIdx = currentBitIdx + 1;
 				if(nextIdx >= length) {
 					nextIdx = 0;
