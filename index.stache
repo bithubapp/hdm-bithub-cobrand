@@ -60,9 +60,8 @@
                                 <img src="{{author.avatar_url}}"/>
                             {{/if}}
                             <b>{{author.id}}</b>
-                            <span>{{updatedAt}}</span>
-                            <br/>
                             <i class="fa fa-{{feed_name}}"></i>
+                            <div>{{updatedAt}}</div>
                         </div>
                     </div>
                 </div>
