@@ -67,7 +67,7 @@
                 </div>
             {{/approvedBit}}
 
-            {{#nextBit}}
+            {{#nextApproved}}
                 <div class="next-bit">
                     <img src="{{images.0.url}}" />
 
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-            {{/nextBit}}
+            {{/nextApproved}}
         </div>
     </div>
 

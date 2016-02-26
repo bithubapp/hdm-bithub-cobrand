@@ -9,22 +9,22 @@ export default can.Component.extend({
 	viewModel: {
 		currentBitIdx: 0,
 		define: {
-			bits: {
+			starredBits: {
 				Value: can.List
 			}
 		},
 		starredBit: function() {
-			if(this.attr("bits").attr("length")) {
-				return this.attr('bits.' + this.attr('currentBitIdx'));
+			if(this.attr("starredBits").attr("length")) {
+				return this.attr('starredBits.' + this.attr('currentBitIdx'));
 			}
 		},
-		nextBit: function() {
-			if(this.attr("bits").attr("length")) {
+		nextStarred: function() {
+			if(this.attr("starredBits").attr("length")) {
 				let nextBitIdx = this.attr('currentBitIdx') + 1;
-				if(nextBitIdx === this.attr('bits').attr('length')){
+				if(nextBitIdx === this.attr('starredBits').attr('length')){
 					nextBitIdx = 0;
 				}
-				return this.attr('bits.' + nextBitIdx);
+				return this.attr('starredBits.' + nextBitIdx);
 			}
 		}
 	},
@@ -38,7 +38,7 @@ export default can.Component.extend({
 		"{viewModel} StarredModel": function() {
 			this.loadNewBits();
 		},
-		"{scope.bits} length": function() {
+		"{scope.starredBits} length": function() {
 			if(!this._isCycleStarted) {
 				this._isCycleStarted = true;
 				this.cycle();
@@ -48,7 +48,7 @@ export default can.Component.extend({
 			let self = this;
 			setTimeout(function() {
 				let currentBitIdx = self.viewModel.attr('currentBitIdx');
-				let length = self.viewModel.attr("bits.length");
+				let length = self.viewModel.attr("starredBits.length");
 				let nextIdx = currentBitIdx + 1;
 				if(nextIdx >= length) {
 					nextIdx = 0;
@@ -62,7 +62,7 @@ export default can.Component.extend({
 			let _loadBits = function() {
 				clearTimeout(self.__loadNewBitsTimeout);
 				self.viewModel.attr("StarredModel").findAll().then(function(data) {
-					let bits = self.viewModel.attr('bits');
+					let bits = self.viewModel.attr('starredBits');
 					let buffer = [];
 					let current;
 					for(var i = 0; i < data.length; i++) {

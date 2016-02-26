@@ -19,7 +19,7 @@ can.Component.extend({
 		currentBitIdx: 0,
 		resetCycle: 0,
 		define: {
-			bits: {
+			currentBits: {
 				Value: can.List
 			},
 			hashTag: {
@@ -56,17 +56,17 @@ can.Component.extend({
 			this.attr("hashTag", $("input#hash-tag").val());
 		},
 		approvedBit: function() {
-			if(this.attr("bits").attr("length")) {
-				return this.attr("bits." + this.attr("currentBitIdx"));
+			if(this.attr("currentBits").attr("length")) {
+				return this.attr("currentBits." + this.attr("currentBitIdx"));
 			}
 		},
-		nextBit: function() {
-			if(this.attr("bits").attr("length")) {
+		nextApproved: function() {
+			if(this.attr("currentBits").attr("length")) {
 				let nextBitIdx = this.attr('currentBitIdx') + 1;
-				if(nextBitIdx === this.attr('bits').attr('length')){
+				if(nextBitIdx === this.attr('currentBits').attr('length')){
 					nextBitIdx = 0;
 				}
-				return this.attr('bits.' + nextBitIdx);
+				return this.attr('currentBits.' + nextBitIdx);
 			}
 		},
 		updatedAt: function() {
@@ -80,7 +80,7 @@ can.Component.extend({
 		"{viewModel} ApprovedModel": function() {
 			this.loadNewBits();
 		},
-		"{viewModel.bits} length": function() {
+		"{viewModel.currentBits} length": function() {
 			if(!this._isCycleStarted){
 				this._isCycleStarted = true;
 				this.cycle();
@@ -100,7 +100,7 @@ can.Component.extend({
 				self.element.find('.next-bit').addClass('next-bit-entering');
 				setTimeout(function() {
 					let currentBitIdx = self.viewModel.attr('currentBitIdx');
-					let length = self.viewModel.attr('bits.length');
+					let length = self.viewModel.attr('currentBits.length');
 					let nextIdx = currentBitIdx + 1;
 					if(nextIdx >= length) {
 						nextIdx = 0;
@@ -115,7 +115,7 @@ can.Component.extend({
 			let _loadBits = function() {
 				clearTimeout(self.__loadNewBitsTimeout);
 				self.viewModel.attr("ApprovedModel").findAll().then(function(data) {
-					let bits = self.viewModel.attr('bits');
+					let bits = self.viewModel.attr('currentBits');
 					let buffer = [];
 					let current;
 					for(var i = 0; i < data.length; i++) {

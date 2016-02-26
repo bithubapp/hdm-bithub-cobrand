@@ -1,6 +1,6 @@
 {{#starredBit}}
     <img src="{{images.0.url}}" />
 {{/starredBit}}
-{{#nextBit}}
+{{#nextStarred}}
     <img src="{{images.0.url}}" />
-{{/nextBit}}
+{{/nextStarred}}
