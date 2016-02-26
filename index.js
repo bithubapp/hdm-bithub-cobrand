@@ -6,6 +6,7 @@ import "can/map/define/";
 import "can/list/promise/";
 import "./style.less!";
 import "sponsors/";
+import moment from 'moment';
 
 let feedURL = function(hub, decision, tenant) {
 	return `http://bithub.com/api/v4/embeds/${hub}/entities?decision=${decision}&tenant_name=${tenant}&image_only=true&offset=0&limit=50`;
@@ -67,6 +68,9 @@ can.Component.extend({
 				}
 				return this.attr('bits.' + nextBitIdx);
 			}
+		},
+		updatedAt: function() {
+			return moment(this.approvedBit().attr('updated_at')).format('MMMM D, YYYY');
 		}
 	},
 	events : {

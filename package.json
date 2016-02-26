@@ -10,14 +10,15 @@
   "license": "ISC",
   "dependencies": {
     "can": "2.3.17",
+    "jquery": "2.1.4",
+    "moment": "^2.11.2",
     "steal": "0.14.0",
-    "steal-tools": "0.14.0",
-    "jquery": "2.1.4"
+    "steal-tools": "0.14.0"
   },
-	"system": {
-        "npmAlgorithm": "flat",
-		"configDependencies": [
-			"live-reload"
-		]
-	}
+  "system": {
+    "npmAlgorithm": "flat",
+    "configDependencies": [
+      "live-reload"
+    ]
+  }
 }

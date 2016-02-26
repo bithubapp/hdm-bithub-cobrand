@@ -1,9 +1,9 @@
 <header>
-    <img class="co-brand-header" src="./images/image-header.svg">
+    <img class="co-brand-header" src="./images/image-header.svg" />
 </header>
-<div id="white-space"></div>
-<div id="entities">
-    {{#unless hashTag}}
+
+{{#unless hashTag}}
+
     <div class="main">
         <div class="row">
             <div class="col-md-4"></div>
@@ -11,74 +11,68 @@
                 <form>
                     <div class="form-group">
                         <label for="hash-tag" class="form-label">Hashtag</label>
-                        <input type="text" class="form-control" id="hash-tag"></input>
+                        <input type="text" class="form-control" id="hash-tag" />
                     </div>
+
                     <div class="form-group">
                         <label for="embed-markup" class="form-label">Embed Markup</label>
-                        <textarea rows="7" class="form-control" id="embed-markup"></textarea>
-                    <br>
-                    <button type="button" class="btn btn-default" ($click)="showHub">Let's Do This!</button>
+                        <textarea rows="7" class="form-control" id="embed-markup">&lt;a href=&quot;http://bithub.com/embed?hubId=2&amp;tenant=benevolent_foliage_3723&amp;decision=approved&amp;view=public&quot; class=&quot;bithub-embed&quot;&gt;Hospice of Southern Illinois Gala Embed&lt;/a&gt;&lt;script src=&quot;http://bithub.com/embed.js&quot;&gt;&lt;/script&gt;</textarea>
+                        <br/>
+                        <button type="button" class="btn btn-default" ($click)="showHub">Let's Do This!</button>
+                    </div>
                 </form>
             </div>
             <div class="col-md-4"></div>
         </div>
     </div>
-    {{else}}
-        <header>
-            <img class="hospice-logo" src="./images/hospice.png">
-            <img class="gala-logo" src="./images/gala.png">
-            <bithub-starred {starred-url}="starredURL"></bithub-starred>
-        </header>
-        <div class="main">
 
-        {{#approvedBit}}
-            <div class="current-bit">
-                <div class="content">
-                    <div class="inner-content-wrap">
-                        {{{title}}}
-                    </div>
-                    <hr>
-                    <div class="author-wrap">
-                        {{#if author.avatar_url}}
-                            <img src="{{author.avatar_url}}">
-                        {{/if}}
-                        <b>{{author.id}}</b>
-                        <br>
-                        <i class="fa fa-{{feed_name}}"></i>
+{{else}}
 
-                    </div>
-                </div>
-                <div class="tv"><img src="./images/tv.png"></div>
-                <div class="img-wrap" style="background-image: url({{images.0.url}})"></div>
-            </div>
-        {{/approvedBit}}
-        {{#nextBit}}
-            <div class="next-bit">
-                <div class="content">
-                    <div class="inner-content-wrap">
-                        {{{title}}}
-                    </div>
-                    <hr>
-                    <div class="author-wrap">
-                        {{#if author.avatar_url}}
-                            <img src="{{author.avatar_url}}">
-                        {{/if}}
-                        <b>{{author.id}}</b>
-                        <br>
-                        <i class="fa fa-{{feed_name}}"></i>
-                    </div>
-                </div>
-                <div class="tv"><img src="./images/tv.png"></div>
-                <div class="img-wrap" style="background-image: url({{images.0.url}})"></div>
-            </div>
-        {{/nextBit}}
+    <div id="main">
+        <div id="starred">
+            <div>Event Sponsors</div>
+            <bithub-starred {starred-url}="starredURL" />
         </div>
-        <footer>
-            <i class="fa fa-instagram"></i>
-            <i class="fa fa-twitter"></i>
-            <i class="fa fa-facebook"></i> Connect with us on social media with the <b>#{{hashTag}}</b> hashtag!
-            <img class="powered-by" src="./images/powered_by.png" />
-        </footer>
-    {{/unless}}
+
+        <div id="bigbit">
+            {{#approvedBit}}
+                <div class="current-bit">
+                    <img src="{{images.0.url}}" />
+
+                    <div class="content">
+                        <div class="header">
+                            <i class="fa fa-instagram"></i>
+                            <i class="fa fa-twitter"></i>
+                            <span>#{{{hashTag}}}</span>
+                        </div>
+
+                        <hr/>
+
+                        <div class="inner-content-wrap">
+                            {{{title}}}
+                        </div>
+
+                        <hr/>
+
+                        <div class="author-wrap">
+                            {{#if author.avatar_url}}
+                                <img src="{{author.avatar_url}}"/>
+                            {{/if}}
+                            <b>{{author.id}}</b>
+                            <span>{{updatedAt}}</span>
+                            <br/>
+                            <i class="fa fa-{{feed_name}}"></i>
+                        </div>
+                    </div>
+                </div>
+            {{/approvedBit}}
+
+            {{#nextBit}}
+                <div class="next-bit">
+                    // todo copy content of current bit
+                </div>
+            {{/nextBit}}
+        </div>
     </div>
-</div>
+
+{{/unless}}
