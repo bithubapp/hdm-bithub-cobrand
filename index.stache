@@ -36,6 +36,7 @@
 
         <div id="bigbit">
             {{#approvedBit}}
+                {{!-- todo: should be partial template / own component --}}
                 <div class="current-bit">
                     <img src="{{images.0.url}}" />
 
@@ -69,7 +70,35 @@
 
             {{#nextBit}}
                 <div class="next-bit">
-                    // todo copy content of current bit
+                    <div class="current-bit">
+                        <img src="{{images.0.url}}" />
+
+                        <div class="content">
+                            <div class="header">
+                                <i class="fa fa-instagram"></i>
+                                <i class="fa fa-twitter"></i>
+                                <span>#{{{hashTag}}}</span>
+                            </div>
+
+                            <hr/>
+
+                            <div class="inner-content-wrap">
+                                {{{title}}}
+                            </div>
+
+                            <hr/>
+
+                            <div class="author-wrap">
+                                {{#if author.avatar_url}}
+                                    <img src="{{author.avatar_url}}"/>
+                                {{/if}}
+                                <b>{{author.id}}</b>
+                                <span>{{updatedAt}}</span>
+                                <br/>
+                                <i class="fa fa-{{feed_name}}"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             {{/nextBit}}
         </div>
