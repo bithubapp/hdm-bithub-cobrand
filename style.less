@@ -53,7 +53,7 @@ header {
     flex-basis: 75%;
     position: relative;
 
-    .current-bit {
+    .current-bit, .current-bit-exiting, .next-bit, .next-bit-entering {
         display: flex;
 
         .header {
@@ -144,7 +144,7 @@ header {
     }
 }
 
-.current-bit .img-wrap {
+.current-bit .img {
     -webkit-transition:background-position .5s ease-in;
     -moz-transition:background-position .5s ease-in;
     -o-transition:background-position .5s ease-in;
@@ -160,5 +160,7 @@ header {
     opacity: 1;
 }
 .inner-content-wrap {
-    max-height: 250px;
+    max-height: 293px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

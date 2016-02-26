@@ -11,12 +11,12 @@
                 <form>
                     <div class="form-group">
                         <label for="hash-tag" class="form-label">Hashtag</label>
-                        <input type="text" class="form-control" id="hash-tag" />
+                        <input type="text" class="form-control" id="hash-tag" value="SIMensExpo" />
                     </div>
 
                     <div class="form-group">
                         <label for="embed-markup" class="form-label">Embed Markup</label>
-                        <textarea rows="7" class="form-control" id="embed-markup">&lt;a href=&quot;http://bithub.com/embed?hubId=2&amp;tenant=benevolent_foliage_3723&amp;decision=approved&amp;view=public&quot; class=&quot;bithub-embed&quot;&gt;Hospice of Southern Illinois Gala Embed&lt;/a&gt;&lt;script src=&quot;http://bithub.com/embed.js&quot;&gt;&lt;/script&gt;</textarea>
+                        <textarea rows="7" class="form-control" id="embed-markup">&lt;a href=&quot;http://bithub.com/embed?hubId=1&amp;tenant=benevolent_foliage_3723&amp;decision=approved&amp;view=public&quot; class=&quot;bithub-embed&quot;&gt;Harness Digital Marketing Embed&lt;/a&gt;&lt;script src=&quot;http://bithub.com/embed.js&quot;&gt;&lt;/script&gt;</textarea>
                         <br/>
                         <button type="button" class="btn btn-default" ($click)="showHub">Let's Do This!</button>
                     </div>
@@ -69,33 +69,30 @@
 
             {{#nextBit}}
                 <div class="next-bit">
-                    <div class="current-bit">
-                        <img src="{{images.0.url}}" />
+                    <img src="{{images.0.url}}" />
 
-                        <div class="content">
-                            <div class="header">
-                                <i class="fa fa-instagram"></i>
-                                <i class="fa fa-twitter"></i>
-                                <span>#{{{hashTag}}}</span>
-                            </div>
+                    <div class="content">
+                        <div class="header">
+                            <i class="fa fa-instagram"></i>
+                            <i class="fa fa-twitter"></i>
+                            <span>#{{{hashTag}}}</span>
+                        </div>
 
-                            <hr/>
+                        <hr/>
 
-                            <div class="inner-content-wrap">
-                                {{{title}}}
-                            </div>
+                        <div class="inner-content-wrap">
+                            {{{title}}}
+                        </div>
 
-                            <hr/>
+                        <hr/>
 
-                            <div class="author-wrap">
-                                {{#if author.avatar_url}}
-                                    <img src="{{author.avatar_url}}"/>
-                                {{/if}}
-                                <b>{{author.id}}</b>
-                                <span>{{updatedAt}}</span>
-                                <br/>
-                                <i class="fa fa-{{feed_name}}"></i>
-                            </div>
+                        <div class="author-wrap">
+                            {{#if author.avatar_url}}
+                                <img src="{{author.avatar_url}}"/>
+                            {{/if}}
+                            <b>{{author.id}}</b>
+                            <i class="fa fa-{{feed_name}}"></i>
+                            <div>{{updatedAt}}</div>
                         </div>
                     </div>
                 </div>
