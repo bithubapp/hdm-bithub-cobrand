@@ -4,14 +4,25 @@
 <div id="white-space"></div>
 <div id="entities">
     {{#unless hashTag}}
-        <div class="main">
-            <form>
-                <input type="text" id="hash-tag"></input>
-                <br>
-                <textarea id="embed-markup"></textarea>
-                <button type="button" ($click)="showHub">Show Hub</button>
-            </form>
+    <div class="main">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <form>
+                    <div class="form-group">
+                        <label for="hash-tag" class="form-label">Hashtag</label>
+                        <input type="text" class="form-control" id="hash-tag"></input>
+                    </div>
+                    <div class="form-group">
+                        <label for="embed-markup" class="form-label">Embed Markup</label>
+                        <textarea rows="7" class="form-control" id="embed-markup"></textarea>
+                    <br>
+                    <button type="button" class="btn btn-default" ($click)="showHub">Let's Do This!</button>
+                </form>
+            </div>
+            <div class="col-md-4"></div>
         </div>
+    </div>
     {{else}}
         <header>
             <img class="hospice-logo" src="./images/hospice.png">
@@ -69,4 +80,5 @@
             <img class="powered-by" src="./images/powered_by.png" />
         </footer>
     {{/unless}}
+    </div>
 </div>
