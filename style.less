@@ -94,6 +94,13 @@ header {
                     margin-right: 15px;
                     margin-top: -5px;
                 }
+                .updated {
+                    position: relative;
+                    top: -10px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    color: #70b92f
+                }
             }
 
             margin: 0 40px;
@@ -124,43 +131,31 @@ header {
 
 
 // animation
-.next-bit {
-    height: 0;
-}
 .next-bit .content, .next-bit img {
     opacity: 0;
 }
-.current-bit .content, .next-bit .content {
+
+.current-bit .content, .next-bit .content, .current-bit img, .next-bit img {
     transition: opacity .5s ease-in-out;
     -moz-transition: opacity .5s ease-in-out;
     -webkit-transition: opacity .5s ease-in-out;
 }
-.current-bit {
-    // block transitions for header
-    .header {
-        transition: none;
-        -moz-transition: none;
-        -webkit-transition: none;
-    }
-}
 
-.current-bit .img {
-    -webkit-transition:background-position .5s ease-in;
-    -moz-transition:background-position .5s ease-in;
-    -o-transition:background-position .5s ease-in;
-    z-index: 1000;
-}
 .current-bit-exiting {
     position: absolute;
-    .content {
+    .content, img {
         opacity: 0;
     }
 }
-.next-bit-entering .content {
-    opacity: 1;
+.next-bit-entering {
+    .content, img {
+        opacity: 1;
+    }
 }
+
 .inner-content-wrap {
     max-height: 293px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
