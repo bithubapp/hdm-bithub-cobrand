@@ -1,4 +1,5 @@
 import $ from "jquery";
+import _ from "lodash";
 import can from "can";
 import stache from "can/view/stache/";
 import initView from "./index.stache!";
@@ -50,6 +51,9 @@ can.Component.extend({
 					}, { }));
 					return url;
 				}
+			},
+			cycling: {
+				value: false
 			}
 		},
 		showHub: function() {
@@ -75,16 +79,16 @@ can.Component.extend({
 		}
 	},
 	events : {
-		init: function() {
-			this._isCycleStarted = false;
-		},
 		"{viewModel} ApprovedModel": function() {
 			this.loadNewBits();
 		},
-		"{viewModel.currentBits} length": function() {
-			if(!this._isCycleStarted){
-				this._isCycleStarted = true;
+		"{viewModel.currentBits} length": function(_, __, length) {
+			if(!this.viewModel.attr("cycling") && length > 0){
+				this.viewModel.attr("cycling", true);
 				this.cycle();
+			} else {
+				this.viewModel.attr("cycling", false);
+				clearTimeout(this.__cycleTimeout);
 			}
 		},
 		"{viewModel} resetCycle": function() {
@@ -121,14 +125,16 @@ can.Component.extend({
 					let current;
 					for(var i = 0; i < data.length; i++) {
 						current = data[i];
-						if(bits.indexOf(current) === -1) {
-							buffer.unshift(current);
+						if (current.decision !== "starred") {
+							if (!_.find(bits, { id: current.id })) {
+								buffer.push(current);
+							}
 						}
 					}
-					if(buffer.length){
+					if(buffer.length) {
 						can.batch.start();
 						buffer.unshift(0);
-						buffer.unshift(self.currentBitIdx + 1);
+						buffer.unshift(self.scope.currentBitIdx + 1);
 						bits.splice.apply(bits, buffer);
 						can.batch.stop();
 					}

@@ -11,6 +11,9 @@ export default can.Component.extend({
 		define: {
 			starredBits: {
 				Value: can.List
+			},
+			cycling: {
+				value: false
 			}
 		},
 		starredBit: function() {
@@ -33,15 +36,17 @@ export default can.Component.extend({
 			this.viewModel.attr("StarredModel", can.Model.extend({
 				findAll: this.viewModel.attr("starredUrl")
 			}, {}));
-			this._isCycleStarted = false;
 		},
 		"{viewModel} StarredModel": function() {
 			this.loadNewBits();
 		},
 		"{scope.starredBits} length": function() {
-			if(!this._isCycleStarted) {
-				this._isCycleStarted = true;
+			if(!this.viewModel.attr("cycling") && length > 0){
+				this.viewModel.attr("cycling", true);
 				this.cycle();
+			} else {
+				this.viewModel.attr("cycling", false);
+				clearTimeout(this.__cycleTimeout);
 			}
 		},
 		cycle: function() {
