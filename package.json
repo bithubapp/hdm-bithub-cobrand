@@ -2,7 +2,7 @@
   "name": "hdm-bithub-cobrand",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "hdm-cobrand.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

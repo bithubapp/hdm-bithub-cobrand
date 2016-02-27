@@ -4,27 +4,19 @@
 
 {{#unless hashTag}}
 
-    <div class="main">
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <form>
-                    <div class="form-group">
-                        <label for="hash-tag" class="form-label">Hashtag</label>
-                        <input type="text" class="form-control" id="hash-tag" value="SIMensExpo" />
-                    </div>
-
-                    <div class="form-group">
-                        <label for="embed-markup" class="form-label">Embed Markup</label>
-                        <textarea rows="7" class="form-control" id="embed-markup">&lt;a href=&quot;http://bithub.com/embed?hubId=1&amp;tenant=benevolent_foliage_3723&amp;decision=approved&amp;view=public&quot; class=&quot;bithub-embed&quot;&gt;Harness Digital Marketing Embed&lt;/a&gt;&lt;script src=&quot;http://bithub.com/embed.js&quot;&gt;&lt;/script&gt;</textarea>
-                        <br/>
-                        <button type="button" class="btn btn-default" ($click)="showHub">Let's Do This!</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-4"></div>
+    <form class="init">
+        <div class="form-group">
+            <label for="hash-tag" class="form-label">Hashtag</label>
+            <input type="text" class="form-control" id="hash-tag" value="SIMensExpo" />
         </div>
-    </div>
+
+        <div class="form-group">
+            <label for="embed-markup" class="form-label">Embed Markup</label>
+            <textarea rows="7" class="form-control" id="embed-markup">&lt;a href=&quot;http://bithub.com/embed?hubId=1&amp;tenant=benevolent_foliage_3723&amp;decision=approved&amp;view=public&quot; class=&quot;bithub-embed&quot;&gt;Harness Digital Marketing Embed&lt;/a&gt;&lt;script src=&quot;http://bithub.com/embed.js&quot;&gt;&lt;/script&gt;</textarea>
+            <br/>
+            <button type="button" class="btn btn-default" ($click)="showHub">Let's Do This!</button>
+        </div>
+    </form>
 
 {{else}}
 

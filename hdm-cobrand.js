@@ -2,9 +2,10 @@ import $ from "jquery";
 import can from "can";
 import stache from "can/view/stache/";
 import initView from "./index.stache!";
+import "can/view/autorender/";
 import "can/map/define/";
 import "can/list/promise/";
-import "./style.less!";
+import "./hdm-cobrand.less!";
 import "sponsors/";
 import moment from 'moment';
 
@@ -13,7 +14,7 @@ let feedURL = function(hub, decision, tenant) {
 };
 
 can.Component.extend({
-	tag: "bithub-approved",
+	tag: "hdm-cobrand",
 	template: initView,
 	viewModel: {
 		currentBitIdx: 0,
@@ -96,8 +97,8 @@ can.Component.extend({
 				if(!self.element) {
 					return;
 				}
-				self.element.find('.current-bit').addClass('current-bit-exiting');
-				self.element.find('.next-bit').addClass('next-bit-entering');
+				self.element.find('.current-bit').addClass('exiting');
+				self.element.find('.next-bit').addClass('entering');
 				setTimeout(function() {
 					let currentBitIdx = self.viewModel.attr('currentBitIdx');
 					let length = self.viewModel.attr('currentBits.length');
@@ -138,6 +139,3 @@ can.Component.extend({
 		}
 	}
 });
-
-let template = stache("<bithub-approved></bithub-approved>")
-$('#app').html(template());
