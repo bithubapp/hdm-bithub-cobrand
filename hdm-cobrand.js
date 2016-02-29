@@ -9,6 +9,7 @@ import "can/list/promise/";
 import "./hdm-cobrand.less!";
 import "sponsors/";
 import moment from 'moment';
+import "can/control/plugin/";
 
 let feedURL = function(hub, decision, tenant) {
 	return `http://bithub.com/api/v4/embeds/${hub}/entities?decision=${decision}&tenant_name=${tenant}&image_only=true&offset=0&limit=50`;
@@ -18,8 +19,10 @@ can.Component.extend({
 	tag: "hdm-cobrand",
 	template: initView,
 	viewModel: {
-		currentBitIdx: 0,
+		currentBitIdx: null,
 		resetCycle: 0,
+		// unprocessed request data, processed in sync with bit cycling
+		unprocessedData: null,
 		define: {
 			currentBits: {
 				Value: can.List
@@ -86,14 +89,10 @@ can.Component.extend({
 			if(!this.viewModel.attr("cycling") && length > 0){
 				this.viewModel.attr("cycling", true);
 				this.cycle();
-			} else {
+			} else if (length < 1) {
 				this.viewModel.attr("cycling", false);
 				clearTimeout(this.__cycleTimeout);
 			}
-		},
-		"{viewModel} resetCycle": function() {
-			clearTimeout(this.__cycleTimeout);
-			this.cycle();
 		},
 		cycle: function() {
 			let self = this;
@@ -101,8 +100,18 @@ can.Component.extend({
 				if(!self.element) {
 					return;
 				}
+
+				// if a new dataset is pending processing do it before we start a transition
+				if (self.viewModel.unprocessedData !== null) {
+					self.processData(self.viewModel.unprocessedData);
+					self.viewModel.attr('unprocessedData', null);
+				}
+
+				// start transition
 				self.element.find('.current-bit').addClass('exiting');
 				self.element.find('.next-bit').addClass('entering');
+
+				// complete transition, queue next
 				setTimeout(function() {
 					let currentBitIdx = self.viewModel.attr('currentBitIdx');
 					let length = self.viewModel.attr('currentBits.length');
@@ -112,31 +121,64 @@ can.Component.extend({
 					}
 					self.viewModel.attr('currentBitIdx', nextIdx);
 					self.cycle();
-				}, 600);
+				}, 510);
 			}, 5000);
+		},
+		// update bits & active index
+		processData: function(data) {
+			let bits = this.viewModel.attr('currentBits');
+			let spliceArgs = [0, bits.length];
+			let newIdx = null;
+			let curIdx = this.viewModel.attr('currentBitIdx');
+
+			// filter starred, find matching bit
+			for(var i = 0; i < data.length; i++) {
+				let bit = data[i];
+				if (bit.decision !== "starred") {
+					spliceArgs.push(bit);
+
+					// maintain active bit between reloads
+					if (curIdx && bit.id === bits[curIdx].id) {
+						newIdx = spliceArgs.length - 3;
+					}
+				}
+			}
+
+			// initialize currentBitIdx
+			if (curIdx === null) {
+				newIdx = 0;
+			}
+
+			// have bits in new set
+			if(spliceArgs.length > 2) {
+				// matching bit not found. current bit now exists as last bit of new set
+				if (newIdx === null) {
+					spliceArgs.push(bits[this.viewModel.attr('currentBitIdx')]);
+					newIdx = spliceArgs.length - 3;
+				}
+
+				// replace old set with new set, maintaining position if possible
+				can.batch.start();
+				if (newIdx !== null) {
+					this.viewModel.attr('currentBitIdx', newIdx);
+				}
+
+				bits.splice.apply(bits, spliceArgs);
+				can.batch.stop();
+			}
 		},
 		loadNewBits: function() {
 			let self = this;
+			let doInit = true;
 			let _loadBits = function() {
 				clearTimeout(self.__loadNewBitsTimeout);
 				self.viewModel.attr("ApprovedModel").findAll().then(function(data) {
-					let bits = self.viewModel.attr('currentBits');
-					let buffer = [];
-					let current;
-					for(var i = 0; i < data.length; i++) {
-						current = data[i];
-						if (current.decision !== "starred") {
-							if (!_.find(bits, { id: current.id })) {
-								buffer.push(current);
-							}
-						}
-					}
-					if(buffer.length) {
-						can.batch.start();
-						buffer.unshift(0);
-						buffer.unshift(self.scope.currentBitIdx + 1);
-						bits.splice.apply(bits, buffer);
-						can.batch.stop();
+					// handle processing for first call, after let .cycle do processing
+					if (doInit) {
+						self.processData(data);
+						doInit = false;
+					} else {
+						self.viewModel.attr('unprocessedData', data);
 					}
 				});
 				self.__loadNewBitsTimeout = setTimeout(_loadBits, 30000);
