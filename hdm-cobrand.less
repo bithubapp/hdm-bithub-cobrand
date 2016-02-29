@@ -33,7 +33,9 @@ hdm-cobrand {
 
     header {
         width: 100%;
-        height: 107px;
+        height: 15%;
+
+        padding: 10px;
 
         display:flex;
         justify-content: center;
@@ -41,10 +43,15 @@ hdm-cobrand {
         background: #70b92f;
 
         border-bottom: 2px solid white;
+
+        > img {
+            height: 100%;
+            width: 100%;
+        }
     }
 
     form.init {
-        height: ~"calc(100% - 107px)";
+        height: 85%;
 
         display: flex;
         flex-direction: column;
@@ -65,7 +72,7 @@ hdm-cobrand {
 }
 
 #main {
-    height: ~"calc(100% - 120px)";
+    height: 85%;
 
     display: flex;
 
@@ -74,6 +81,7 @@ hdm-cobrand {
 
 #bigbit {
     height:100%;
+    // adjust for margin
     max-width: ~"calc(75% - 40px)";
 
     margin-left: 40px;
@@ -144,6 +152,7 @@ hdm-cobrand {
 
 #starred {
     height:100%;
+    // adjust for margin
     min-width: ~"calc(25% - 40px)";
 
     margin-left: 40px;
