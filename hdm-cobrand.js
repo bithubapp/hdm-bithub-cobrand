@@ -34,17 +34,19 @@ can.Component.extend({
 			},
 			embedMarkup: {
 				set: function(markup) {
-					let href = can.buildFragment(markup)
-						.querySelector("a[href]")
-						.getAttribute("href");
+					let anchor = can.buildFragment(markup)
+						.querySelector("a[href]");
 
-					let {hubId: hub, tenant: tenant} =
-						can.deparam(href.split("?")[1]);
+					if (anchor) {
+						let href = anchor.getAttribute("href");
+						let {hubId: hub, tenant: tenant} =
+							can.deparam(href.split("?")[1]);
 
-					this.attr("approvedURL", feedURL(hub, "approved", tenant));
-					this.attr("starredURL", feedURL(hub, "starred", tenant));
+						this.attr("approvedURL", feedURL(hub, "approved", tenant));
+						this.attr("starredURL", feedURL(hub, "starred", tenant));
 
-					return markup;
+						return markup;
+					}
 				}
 			},
 			approvedURL: {
@@ -59,9 +61,14 @@ can.Component.extend({
 				value: false
 			}
 		},
+		selectText: function(_, element) {
+			element.select();
+		},
 		showHub: function() {
 			this.attr("embedMarkup", $("textarea#embed-markup").val());
-			this.attr("hashTag", $("input#hash-tag").val());
+			if (this.attr("embedMarkup")) {
+				this.attr("hashTag", $("input#hash-tag").val());
+			}
 		},
 		approvedBit: function() {
 			if(this.attr("currentBits").attr("length")) {
